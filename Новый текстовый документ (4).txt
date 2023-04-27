@@ -1,0 +1,26 @@
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import numpy as np
+import scipy.integrate as spi
+
+f = 100
+df = 20
+fq = 10
+Q = 2 * np.pi * fq
+dw = 2 * np.pi * df
+w0 = 2 * np.pi * f
+integral_f = lambda t:dw * np.sin(Q * t) * t
+
+def y(time):
+    a = np.cos(2 * np.pi * time)
+    fi = np.sin(2 * np.pi * time)
+    integral = np.vectorize(spi.quad)(integral_f, 0, time)
+    return A * np.sin(w0 * time + integral[0] + fi)
+
+t = np.linspace(0, 1, 1000)
+
+plt.plot(t, y(t))
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title('y(t)')
+plt.show()
